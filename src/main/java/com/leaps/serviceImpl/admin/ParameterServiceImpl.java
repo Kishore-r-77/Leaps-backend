@@ -116,7 +116,7 @@ public class ParameterServiceImpl implements ParameterService {
                 Optional.ofNullable(entity.getShortDescription())
                                 .ifPresent((Parameter) -> parameter.setShortDescription(entity.getShortDescription()));
                 Optional.ofNullable(entity.getLongDescription())
-                                .ifPresent((Parameter) -> parameter.getLongDescription());
+                                .ifPresent((Parameter) -> parameter.setLongDescription(entity.getLongDescription()));
 
                 parameterRepository.save(parameter);
                 return errorService.getErrorById("ER002");
@@ -128,7 +128,6 @@ public class ParameterServiceImpl implements ParameterService {
         public String softdelete(Long id) {
                 Parameter parameter = parameterRepository.findById(id)
                                 .orElseThrow(() -> new ResourceNotFoundException("Parameter", "id", id));
-
                 parameterRepository.save(parameter);
                 return errorService.getErrorById("ER003");
         }

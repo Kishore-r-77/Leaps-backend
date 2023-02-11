@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.leaps.calculations.flc.FlcLeapDetailsCalculations;
 import com.leaps.dto.flc.FlcLeapDetailsDto;
 import com.leaps.entity.flc.FlcClientDetails;
 import com.leaps.entity.flc.FlcCoverDetails;
@@ -39,7 +40,6 @@ import com.leaps.repository.flc.FlcTransactionDetailsRepository;
 import com.leaps.repository.master.UinMasterRepository;
 import com.leaps.responses.flc.FlcLeapDetailsResponse;
 import com.leaps.service.flc.FlcLeapDetailsService;
-import com.leaps.serviceImpl.flc.calculations.FlcLeapDetailsCalculations;
 
 @Service
 public class FlcLeapDetailsServiceImpl implements FlcLeapDetailsService {
@@ -66,7 +66,7 @@ public class FlcLeapDetailsServiceImpl implements FlcLeapDetailsService {
 
 	@Autowired
 	private FlcClientDetailsRepository flcClientDetailsRepository;
-	
+
 	@Autowired
 	private UinMasterRepository uinMasterRepository;
 
@@ -758,16 +758,16 @@ public class FlcLeapDetailsServiceImpl implements FlcLeapDetailsService {
 		}
 		return errorService.getErrorById("ER003");
 	}
-	
+
 	public String assignMultipleTrans(List<Long> policyNums, Long userId) {
 
 		policyNums.forEach((policyNo) -> {
 			try {
 				FlcPolicyDetails policy = flcPolicyDetailsRepository.getActiveByPolicyNo(policyNo);
-				
+
 				UinMaster uinMaster = uinMasterRepository.getActiveByUIN(policy.getUinNumber());
 
-				if(uinMaster.getFlcEligibility().equalsIgnoreCase("Yes")) {
+				if (uinMaster.getFlcEligibility().equalsIgnoreCase("Yes")) {
 					if (uinMaster.getProductType().contains("N")) {
 						calculateNonUlip(policyNo, userId);
 					} else if (uinMaster.getProductType().contains("L")) {

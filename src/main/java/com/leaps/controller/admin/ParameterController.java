@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,6 +25,7 @@ import com.leaps.utilities.AppConstants;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/parameter")
 public class ParameterController {
@@ -36,7 +38,7 @@ public class ParameterController {
     private ParameterServiceImpl parameterService;
 
     // Get-all with Pagination
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getall-pagination")
     public ResponseEntity<ParameterResponse> getallWithPagination(
             @RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNo,

@@ -20,18 +20,18 @@ import com.leaps.security.JwtAuthenticationFilter;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
-	
-	
+
 	@Autowired
 	private JwtAuthenticationEntryPoint authenticationEntryPoint;
-	
+
 	@Autowired
 	private JwtAuthenticationFilter authenticationFilter;
-	
+
 	@Bean
 	public static PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
 		return configuration.getAuthenticationManager();
@@ -39,22 +39,20 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable()	
+		http.csrf().disable().cors().and()
 //		.authorizeHttpRequests((authorize)->authorize.anyRequest().authenticated())
-		.authorizeHttpRequests((authorize)->authorize
-				.requestMatchers(HttpMethod.GET,"/**").permitAll()
-				.requestMatchers("/api/auth/**").permitAll()
-				.anyRequest().authenticated()
-				)
-		.exceptionHandling(exception->exception.authenticationEntryPoint(authenticationEntryPoint))
-		.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+				.authorizeHttpRequests((authorize) -> authorize.requestMatchers(HttpMethod.GET, "/**").permitAll()
+						.requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated()
+
+				).exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 //		.httpBasic(Customizer.withDefaults());
-		
+
 		http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
-	
-	//In Memory Authentication
+
+	// In Memory Authentication
 //	@Bean
 //	public UserDetailsService userDetailsService() {
 //		UserDetails kishore = User.builder().username("Kishore").password(passwordEncoder().encode("Kishore")).roles("USER").build();

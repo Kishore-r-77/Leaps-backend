@@ -1,4 +1,4 @@
-package com.leaps.serviceImpl.flc.calculations;
+package com.leaps.calculations.flc;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -35,7 +35,7 @@ import com.leaps.repository.master.MortalityRatesRepository;
 import com.leaps.repository.master.StamDutyMasterRepository;
 
 @Service
-public abstract class FlcLeapDetailsCalculations {
+public class FlcLeapDetailsCalculations {
 
 	@Autowired
 	private FlcPolicyDetailsRepository flcPolicyDetailsRepository;
@@ -44,7 +44,7 @@ public abstract class FlcLeapDetailsCalculations {
 	private FlcCoverDetailsRepository flcCoverDetailsRepository;
 	@Autowired
 	private StamDutyMasterRepository stamDutyMasterRepository;
-	
+
 	@Autowired
 	private FlcTransactionDetailsRepository flcTransactionDetailsRepository;
 	@Autowired
@@ -227,7 +227,7 @@ public abstract class FlcLeapDetailsCalculations {
 							"** Difference in days +1 ** " + diffInDaysplusOne + "   *** /365 ***  " + dateDiff);
 
 					double mortalityCharge = rates * dateDiff;
-//					Long mortalityCharges = (long) mortalityCharge;
+					// Long mortalityCharges = (long) mortalityCharge;
 
 					System.out.println("************** MC without gst *************** " + mortalityCharge);
 

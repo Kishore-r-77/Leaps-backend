@@ -1,5 +1,6 @@
 package com.leaps.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,6 +16,7 @@ public class CorsConfig {
 	private static final String PUT = RestMethods.PUT;
 	private static final String PATCH = RestMethods.PATCH;
 
+	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 
@@ -23,9 +25,10 @@ public class CorsConfig {
 				registry
 				.addMapping("/**")
 				.allowedMethods(GET, PUT, PATCH, DELETE, POST)
+				.allowedOrigins("*")
 				.allowedHeaders("*")
-				.allowedOriginPatterns("*")
-				.allowCredentials(true);
+				.allowedOriginPatterns("*");
+//				.allowCredentials(true);
 			}
 		};
 
